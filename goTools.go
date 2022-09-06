@@ -1,4 +1,4 @@
-package goTools
+package goSmallTools
 
 import (
 	"fmt"

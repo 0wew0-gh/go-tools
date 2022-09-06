@@ -58,6 +58,7 @@ func UnderlineToHump(str string) string {
 	return upperStr
 }
 
+// 处理字典数组转为MySQL where语句
 func ParameterToWhere(str string, cst *time.Location, timeFormat string) string {
 	plist := gjson.Parse(str)
 	where := ""

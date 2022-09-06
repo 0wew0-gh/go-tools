@@ -25,3 +25,11 @@ func TestParameter(t *testing.T) {
 	pStr := ParameterToWhere(str, cstSh, timeFormat)
 	t.Log(pStr)
 }
+func TestCheckEmail(t *testing.T) {
+	pStr := CheckEmail("test@test.com")
+	t.Log(pStr)
+}
+func TestCheckPhone(t *testing.T) {
+	pStr := CheckPhone("86", "13433335555")
+	t.Log(pStr)
+}

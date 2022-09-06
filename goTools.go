@@ -141,3 +141,37 @@ func ParameterToWhere(str string, cst *time.Location, timeFormat string) string 
 	}
 	return where
 }
+
+// 检查电子邮件地址
+func CheckEmail(mail string) error {
+	// regexpStr := `^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$`
+	// regexpStr := `^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$`
+	regexpStr := `^([\w\.\_\-]{2,245})@(\w{1,}).([a-z]{2,4})$`
+	re, err := regexp.Compile(regexpStr)
+	if err != nil {
+		return err
+	}
+	if !re.MatchString(mail) {
+		return fmt.Errorf("err mail path")
+	}
+	return nil
+}
+
+// 验证手机号码
+//
+//	code	国家码
+//	phone	电话号码
+//
+// 美国:001，加拿大:1
+func CheckPhone(code string, phone string) error {
+	regexpStr := phoneReg[code]
+	re, err := regexp.Compile(regexpStr)
+	if err != nil {
+		return err
+	}
+	if !re.MatchString(phone) {
+		return fmt.Errorf("err phone path")
+	}
+	return nil
+
+}

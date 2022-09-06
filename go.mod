@@ -1,4 +1,4 @@
-module goTools
+module github.com/0wew0-gh/goSmallTools
 
 go 1.19
 

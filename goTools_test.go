@@ -1,6 +1,8 @@
 package goSmallTools
 
 import (
+	"fmt"
+	"strconv"
 	"testing"
 	"time"
 )
@@ -32,4 +34,33 @@ func TestCheckEmail(t *testing.T) {
 func TestCheckPhone(t *testing.T) {
 	pStr := CheckPhone("86", "13433335555")
 	t.Log(pStr)
+}
+
+func TestTimeStampToTimeStr(t *testing.T) {
+	cstSh, err := time.LoadLocation("Asia/Shanghai")
+	if err != nil {
+		t.Error("时区文件加载失败:", err)
+		cstSh = time.FixedZone("CST", 8*3600)
+	}
+	timeFormat := "2006-01-02 15:04:05"
+	tn := time.Now()
+	fmt.Println(tn.Unix(), tn.In(cstSh).Format(timeFormat))
+	timeStr := TimeStampToTimeStr(tn.Unix(), cstSh, timeFormat)
+	fmt.Println(timeStr)
+}
+
+func TestTimeStampStrToTimeStr(t *testing.T) {
+	cstSh, err := time.LoadLocation("Asia/Shanghai")
+	if err != nil {
+		t.Error("时区文件加载失败:", err)
+		cstSh = time.FixedZone("CST", 8*3600)
+	}
+	timeFormat := "2006-01-02 15:04:05"
+	tn := time.Now()
+	fmt.Println(tn.Unix(), tn.In(cstSh).Format(timeFormat))
+	timeStr, err := TimeStampStrToTimeStr(strconv.Itoa(int(tn.Unix())), cstSh, timeFormat)
+	if err != nil {
+		fmt.Println("ERR:", err)
+	}
+	fmt.Println(timeStr)
 }

@@ -175,3 +175,37 @@ func CheckPhone(code string, phone string) error {
 	return nil
 
 }
+
+// 时间戳转时间字符串
+//
+//	ts		int64		时间戳10-19位
+//	cst		*time.Location	时区
+//	timeFormat	string		时间格式'2006-01-02 15:04:05'
+func TimeStampToTimeStr(ts int64, cst *time.Location, timeFormat string) string {
+	timeStamp := ts
+	tsStr := strconv.Itoa(int(ts))
+	return tsTostr(int64(timeStamp), len(tsStr), cst, timeFormat)
+}
+
+// 时间戳字符串转时间字符串
+//
+//	ts		string		时间戳字符串10-19位
+//	cst		*time.Location	时区
+//	timeFormat	string		时间格式'2006-01-02 15:04:05'
+func TimeStampStrToTimeStr(tsStr string, cst *time.Location, timeFormat string) (string, error) {
+	timeStamp, err := strconv.Atoi(tsStr)
+	if err != nil {
+		return "", err
+	}
+	return tsTostr(int64(timeStamp), len(tsStr), cst, timeFormat), nil
+}
+
+func tsTostr(ts int64, tsLen int, cst *time.Location, timeFormat string) string {
+	timeStamp := ts
+	if tsLen < 19 {
+		for i := 0; i < 19-tsLen; i++ {
+			timeStamp *= 10
+		}
+	}
+	return time.Unix(0, int64(timeStamp)).In(cst).Format(timeFormat)
+}

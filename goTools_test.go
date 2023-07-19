@@ -64,3 +64,63 @@ func TestTimeStampStrToTimeStr(t *testing.T) {
 	}
 	fmt.Println(timeStr)
 }
+
+func TestCheckString(t *testing.T) {
+	a := "测a试jsdij/[]$%^&*()_+{}|:<>?~`select 1234567890-=\\';lkjhgfdsazxcvbnm,./!@#$%^&*()_+{}|:<>?~`"
+	b := "\\x dfas '%dfs%' -- sad-ds"
+	CheckString("\xAA")
+	CheckString("\x12b")
+	CheckString("\x12")
+	CheckString("\x9A")
+	CheckString("\x12")
+	CheckString("\xAA\x12b\x12\x9A\x12")
+	CheckString("asdfghjkl; ")
+	CheckString("'sa'")
+	CheckString("\\sa'")
+	CheckString(a)
+	fmt.Println(">>>", ReplaceAllString(a, ""))
+	CheckString(b)
+	fmt.Println(">>>", ReplaceAllString(b, ""))
+	SetRegexpString(`(?:a)|(?:')|(?:\\)|(?:--)`)
+	if errArr := CheckStringReturnList(a); len(errArr) > 0 {
+		fmt.Println(a, "非法字符:", errArr)
+	}
+	if errArr := CheckStringReturnList(b); len(errArr) > 0 {
+		fmt.Println(b, "非法字符:", errArr)
+	}
+}
+
+func TestSetRegexpType(t *testing.T) {
+	SetRegexpType(Int)
+	a := "123"
+	errArr := CheckRegexpType(a)
+	fmt.Println("Int:", a, "=>", errArr)
+	SetRegexpType(Float)
+	a = "123.456"
+	errArr = CheckRegexpType(a)
+	fmt.Println("Float:", a, "=>", errArr)
+	SetRegexpType(OnlyChinese)
+	a = "测试"
+	errArr = CheckRegexpType(a)
+	fmt.Println("OnlyChinese:", a, "=>", errArr)
+	SetRegexpType(OnlyLetter)
+	a = "asdf"
+	errArr = CheckRegexpType(a)
+	fmt.Println("OnlyLetter:", a, "=>", errArr)
+	SetRegexpType(Email)
+	a = "test@test.com"
+	errArr = CheckRegexpType(a)
+	fmt.Println("Email:", a, "=>", errArr)
+	SetRegexpType(Url)
+	a = "https://www.test.com"
+	errArr = CheckRegexpType(a)
+	fmt.Println("Url:", a, "=>", errArr)
+	SetRegexpType(Account)
+	a = "Dv2_d"
+	errArr = CheckRegexpType(a)
+	fmt.Println("Account:", a, "=>", errArr)
+	SetRegexpType(Password)
+	a = "%xa6tGKkKd9Sz&b!8*6GjL!NP$tk^2DdSxeBE#jCF@5rH9VwB6QExCTt%oUwskbq"
+	errArr = CheckRegexpType(a)
+	fmt.Println("Password:", a, "=>", errArr)
+}
